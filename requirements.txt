@@ -1,0 +1,3 @@
+pycoingecko==2.0.0
+retrying==1.3.3
+pybit==2.4.0
