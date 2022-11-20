@@ -25,4 +25,4 @@ def get_price(symbol):
         return None
 
 def create_order(symbol, side, quantity):
-    return session_auth.place_active_order(symbol=(f'{symbol}{pairing}'), side=side, order_type='Market', qty=quantity, time_in_force='GoodTillCancel')
+    return session_auth.place_active_order(symbol=(f'{symbol}'), side=side, type='Market', qty=quantity, time_in_force='GoodTillCancel')
