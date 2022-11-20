@@ -22,11 +22,11 @@ def rebalance(balances, required_weights):
 
         if change_in_value < -bybit_order_min:
             print(f'Selling {pair}. Change: {quantity}. Estimated change in value: {change_in_value}.')
-            create_order(pair, 'sell', -quantity)
+            create_order(pair, 'sell', -round(change_in_value, int(-math.log10(stepsize))))
             time.sleep(wait_seconds_between_orders)
         elif change_in_value > bybit_order_min:
             print(f'Buying {pair}. Change: {quantity}. Estimated change in value: {change_in_value}.')
-            create_order(pair, 'buy', quantity)
+            create_order(pair, 'buy', round(change_in_value, int(-math.log10(stepsize))))
             time.sleep(wait_seconds_between_orders)
         else:
             print(f'Could not create an order for {pair}: required change in value ({change_in_value}) is too small in magnitude.')
@@ -60,6 +60,8 @@ def _get_required_changes_in_portfolio(required_weights):
 
     required_changes = [(s, portfolio[s]['required_change_in_value'], portfolio[s]['required_change'], portfolio[s]['price'])
                         for s in portfolio if portfolio[s]['required_change'] != 0]
+
+    required_changes = [x for x in required_changes if x[1] != 0]
 
     def f(x):
         if x < 0:
